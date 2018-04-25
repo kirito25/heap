@@ -1,5 +1,3 @@
-import random
-
 class Heap():
     def __init__(self):
         self.l = []
@@ -81,7 +79,6 @@ class MaxHeap(Heap):
             parentIndex = self.parentIndex(index)
 
     def sink(self):
-        print "hi"
         self.l[0] = self.l[-1]
         self.l = self.l[:-1]
         index = 0
