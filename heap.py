@@ -101,4 +101,52 @@ class MaxHeap(Heap):
                 # done sinking
                 break
 
+class MedianHeap():
+    def __init__(self):
+        self.highers = MaxHeap()
+        self.lowers = MinHeap()
 
+    def put(self, item):
+        if self.lowers.size() == 0:
+            self.lowers.put(item)
+            return
+        elif item < self.lowers.peek():
+            self.lowers.put(item)
+        elif self.highers.size() == 0:
+            self.highers.put(item)
+            return
+        else:
+            self.highers.put(item)
+        self.rebalance()
+
+    def peek(self):
+        if self.lowers.size() == self.highers.size():
+            return ( self.lowers.peek() + self.highers.peek() ) / 2.0
+        elif self.lowers.size() > self.highers.size():
+            return self.lowers.peek() / 1.0
+        else:
+            return self.highers.peek() / 1.0
+
+    def pop(self):
+        if self.lowers.size() == self.highers.size():
+            return ( self.lowers.pop() + self.highers.pop() ) / 2.0
+        elif self.lowers.size() > self.highers.size():
+            return self.lowers.pop() / 1.0
+        else:
+            return self.highers.pop() / 1.0
+        self.rebalance()
+
+    def rebalance(self):
+        while self.lowers.size() - 1 < self.highers.size():
+            self.lowers.put(self.highers.pop())
+        while self.lowers.size() > self.highers.size():
+            self.highers.put(self.lowers.pop())
+
+
+import sys
+n = int(sys.stdin.readline().strip())
+h = MedianHeap()
+for a_i in xrange(n):
+    a_t = int(sys.stdin.readline().strip())
+    h.put(a_t)
+    print h.peek()
