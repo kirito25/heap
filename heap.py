@@ -145,9 +145,10 @@ class MedianHeap():
             smaller.put(bigger.pop())
 
 import sys
-n = int(sys.stdin.readline().strip())
-h = MedianHeap()
-for a_i in xrange(n):
-    a_t = int(sys.stdin.readline().strip())
-    h.put(a_t)
-    print h.peek()
+if __name__ == '__main__':
+    n = int(sys.stdin.readline().strip())
+    h = MedianHeap()
+    for a_i in xrange(n):
+        a_t = int(sys.stdin.readline().strip())
+        h.put(a_t)
+        print h.peek()
