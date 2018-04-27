@@ -103,18 +103,12 @@ class MaxHeap(Heap):
 
 class MedianHeap():
     def __init__(self):
-        self.highers = MaxHeap()
-        self.lowers = MinHeap()
+        self.highers = MinHeap()
+        self.lowers = MaxHeap()
 
     def put(self, item):
-        if self.lowers.size() == 0:
+        if self.lowers.size() == 0 or item < self.lowers.peek():
             self.lowers.put(item)
-            return
-        elif item < self.lowers.peek():
-            self.lowers.put(item)
-        elif self.highers.size() == 0:
-            self.highers.put(item)
-            return
         else:
             self.highers.put(item)
         self.rebalance()
@@ -137,11 +131,18 @@ class MedianHeap():
         self.rebalance()
 
     def rebalance(self):
-        while self.lowers.size() - 1 < self.highers.size():
-            self.lowers.put(self.highers.pop())
-        while self.lowers.size() > self.highers.size():
-            self.highers.put(self.lowers.pop())
-
+        bigger = None
+        smaller = None
+        if self.lowers.size() < self.highers.size():
+            bigger = self.highers
+            smaller = self.lowers
+        elif self.highers.size() < self.lowers.size():
+            smaller = self.highers
+            bigger = self.lowers
+        else:
+            return
+        if bigger.size() - smaller.size() == 2:
+            smaller.put(bigger.pop())
 
 import sys
 n = int(sys.stdin.readline().strip())
